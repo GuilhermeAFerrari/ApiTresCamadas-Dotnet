@@ -1,0 +1,11 @@
+  version: '3'
+  services:
+
+      sqldata:
+        container_name: SQLServer-ApiTresCamadas
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+          - SA_PASSWORD=1q2w3e4r!@#
+          - ACCEPT_EULA=Y
+        ports:
+          - "1433:1433"
