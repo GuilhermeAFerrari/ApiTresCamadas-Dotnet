@@ -1,5 +1,6 @@
 ﻿using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
+using DevIO.Business.Models.Validations;
 
 namespace DevIO.Business.Services;
 
@@ -14,11 +15,13 @@ public class ProductService : BaseService, IProductService
 
     public async Task AddAsync(Product product)
     {
+        if (!ExecuteValidation(new ProductValidation(), product)) return;
         await _productRepository.AddAsync(product);
     }
 
     public async Task UpdateAsync(Product product)
     {
+        if (!ExecuteValidation(new ProductValidation(), product)) return;
         await _productRepository.UpdateAsync(product);
     }
 

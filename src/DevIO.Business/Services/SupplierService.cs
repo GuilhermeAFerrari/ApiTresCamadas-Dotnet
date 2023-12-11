@@ -1,5 +1,6 @@
 ﻿using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
+using DevIO.Business.Models.Validations;
 
 namespace DevIO.Business.Services;
 
@@ -14,11 +15,15 @@ public class SupplierService : BaseService, ISupplierService
 
     public async Task AddAsync(Supplier supplier)
     {
+        if (!ExecuteValidation(new SupplierValidation(), supplier) ||
+            !ExecuteValidation(new AddressValidation(), supplier.Address)) return;
+
         await _supplierRepository.AddAsync(supplier);
     }
 
     public async Task UpdateAsync(Supplier supplier)
     {
+        if (!ExecuteValidation(new SupplierValidation(), supplier)) return;
         await _supplierRepository.UpdateAsync(supplier);
     }
 
