@@ -4,7 +4,7 @@ namespace DevIO.Business.Interfaces;
 
 public interface ISupplierService : IDisposable
 {
-    Task Add(Supplier supplier);
-    Task Update(Supplier supplier);
-    Task Remove(Supplier supplier);
+    Task AddAsync(Supplier supplier);
+    Task UpdateAsync(Supplier supplier);
+    Task RemoveAsync(Guid id);
 }

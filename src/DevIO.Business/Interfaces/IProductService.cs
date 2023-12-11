@@ -4,7 +4,7 @@ namespace DevIO.Business.Interfaces;
 
 public interface IProductService : IDisposable
 {
-    Task Add(Product product);
-    Task Update(Product product);
-    Task Remove(Product product);
+    Task AddAsync(Product product);
+    Task UpdateAsync(Product product);
+    Task RemoveAsync(Guid id);
 }

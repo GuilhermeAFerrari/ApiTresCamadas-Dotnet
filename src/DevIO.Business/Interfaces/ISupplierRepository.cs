@@ -4,7 +4,7 @@ namespace DevIO.Business.Interfaces;
 
 public interface ISupplierRepository : IRepository<Supplier>
 {
-    Task<Supplier> GetSupplierAddress(Guid id);
-    Task<Supplier> GetSupplierProductsAddress(Guid id);
-    Task<Address> GetAddressBySupplier(Guid idSupplier);
+    Task<Supplier> GetSupplierAddressAsync(Guid id);
+    Task<Supplier> GetSupplierProductsAddressAsync(Guid id);
+    Task<Address> GetAddressBySupplierAsync(Guid idSupplier);
 }
