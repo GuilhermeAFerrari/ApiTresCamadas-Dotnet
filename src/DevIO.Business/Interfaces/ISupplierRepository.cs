@@ -7,4 +7,5 @@ public interface ISupplierRepository : IRepository<Supplier>
     Task<Supplier> GetSupplierAddressAsync(Guid id);
     Task<Supplier> GetSupplierProductsAddressAsync(Guid id);
     Task<Address> GetAddressBySupplierAsync(Guid idSupplier);
+    Task RemoveAddressSupplier(Address address);
 }

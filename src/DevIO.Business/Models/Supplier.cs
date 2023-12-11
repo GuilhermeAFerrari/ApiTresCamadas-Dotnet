@@ -6,5 +6,6 @@ public class Supplier : Entity
     public string? Document { get; set; }
     public ESupplierType SupplierType { get; set; }
     public Address? Address { get; set; }
+    public IEnumerable<Product> Products { get; set; }
     public bool Active { get; set; }
 }

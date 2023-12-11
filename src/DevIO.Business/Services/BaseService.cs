@@ -21,4 +21,9 @@ public abstract class BaseService
 
         return false;
     }
+
+    protected void Notifier(string message)
+    {
+
+    }
 }
