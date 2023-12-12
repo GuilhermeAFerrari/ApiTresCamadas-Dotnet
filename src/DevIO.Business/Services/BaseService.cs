@@ -1,10 +1,20 @@
-﻿using DevIO.Business.Models;
+﻿using DevIO.Business.Interfaces;
+using DevIO.Business.Models;
+using DevIO.Business.Notifiers;
 using FluentValidation;
+using FluentValidation.Results;
 
 namespace DevIO.Business.Services;
 
 public abstract class BaseService
 {
+    private readonly INotifier _notifier;
+
+    protected BaseService(INotifier notifier)
+    {
+        _notifier = notifier;
+    }
+
     protected bool ExecuteValidation<TValidator, TEntity>
     (
         TValidator validator,
@@ -17,13 +27,16 @@ public abstract class BaseService
 
         if (validatorResult.IsValid) return true;
 
-        // Throw notifications
+        Notify(validatorResult);
 
         return false;
     }
 
-    protected void Notifier(string message)
+    protected void Notify(ValidationResult validationResult)
     {
-
+        foreach (var item in validationResult.Errors)
+            Notify(item.ErrorMessage);
     }
+
+    protected void Notify(string message) =>_notifier.Handle(new Notification(message));
 }

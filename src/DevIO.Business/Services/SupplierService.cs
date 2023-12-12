@@ -8,7 +8,10 @@ public class SupplierService : BaseService, ISupplierService
 {
     private readonly ISupplierRepository _supplierRepository;
 
-    public SupplierService(ISupplierRepository supplierRepository)
+    public SupplierService(
+        ISupplierRepository supplierRepository,
+        INotifier notifier
+    ) : base(notifier)
     {
         _supplierRepository = supplierRepository;
     }
@@ -20,7 +23,7 @@ public class SupplierService : BaseService, ISupplierService
 
         if (_supplierRepository.SearchAsync(s => s.Document == supplier.Document).Result.Any())
         {
-            Notifier("There is already a supplier with the informed document");
+            Notify("There is already a supplier with the informed document");
             return;
         }
 
@@ -37,7 +40,7 @@ public class SupplierService : BaseService, ISupplierService
             ).Result.Any()
         )
         {
-            Notifier("There is already a supplier with the informed document");
+            Notify("There is already a supplier with the informed document");
             return;
         }
         await _supplierRepository.UpdateAsync(supplier);
@@ -49,13 +52,13 @@ public class SupplierService : BaseService, ISupplierService
 
         if (supplier is null)
         {
-            Notifier("Supplier does not exist");
+            Notify("Supplier does not exist");
             return;
         }
 
         if (supplier.Products.Any())
         {
-            Notifier("Supplier has registered products");
+            Notify("Supplier has registered products");
             return;
         }
 
