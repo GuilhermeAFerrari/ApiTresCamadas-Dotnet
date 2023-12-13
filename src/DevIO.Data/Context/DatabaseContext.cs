@@ -7,7 +7,9 @@ public class DatabaseContext : DbContext
 {
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
-        // Some configurations
+        // By default EF observes the returned instance of the bank, this setting desable this behavor
+        ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        ChangeTracker.AutoDetectChangesEnabled = false;
     }
 
     public DbSet<Supplier> Products { get; set; }
@@ -18,7 +20,7 @@ public class DatabaseContext : DbContext
     {
         foreach (var property in modelBuilder.Model.GetEntityTypes()
                                 .SelectMany(e => e.GetProperties()
-                                .Where(p => p.ClrType == typeof(string)))
+                                .Where(p => p.ClrType == typeof(string))))
         {
             property.SetColumnType("varchar(100)");
         }
@@ -32,5 +34,23 @@ public class DatabaseContext : DbContext
         }
 
         base.OnModelCreating(modelBuilder);
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("RegistrationDate") != null))
+        {
+            if (entry.State == EntityState.Added)
+            {
+                entry.Property("DataCadastro").CurrentValue = DateTime.Now;
+            }
+
+            if (entry.State == EntityState.Modified)
+            {
+                entry.Property("DataCadastro").IsModified = false;
+            }
+        }
+
+        return base.SaveChangesAsync(cancellationToken);
     }
 }
