@@ -10,7 +10,7 @@ public class DatabaseContext : DbContext
         // Some configurations
     }
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Address> Addresses { get; set; }
+    public DbSet<Supplier> Products { get; set; }
+    public DbSet<Address> Adresses { get; set; }
     public DbSet<Supplier> Suppliers { get; set; }
 }
