@@ -12,7 +12,7 @@ public class DatabaseContext : DbContext
         ChangeTracker.AutoDetectChangesEnabled = false;
     }
 
-    public DbSet<Supplier> Products { get; set; }
+    public DbSet<Product> Products { get; set; }
     public DbSet<Address> Adresses { get; set; }
     public DbSet<Supplier> Suppliers { get; set; }
 
