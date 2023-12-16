@@ -21,9 +21,9 @@ public class ProductsController : MainController
         IProductService productService,
         INotifier notifier) : base(notifier)
     {
+        _mapper = mapper;
         _productRepository = productRepository;
         _productService = productService;
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -55,7 +55,7 @@ public class ProductsController : MainController
     {
         if (id != productViewModel.Id)
         {
-            NotificarErro("The ids entered are not the same");
+            NotifyError("The ids entered are not the same");
             return CustomResponse();
         }
 

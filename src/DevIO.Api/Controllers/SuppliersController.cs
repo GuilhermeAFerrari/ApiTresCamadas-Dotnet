@@ -57,7 +57,7 @@ public class SuppliersController : MainController
     {
         if (id != supplierViewModel.Id)
         {
-            NotificarErro("The id entered is not the same as the one passed in the query");
+            NotifyError("The id entered is not the same as the one passed in the query");
             return CustomResponse();
         }
 
