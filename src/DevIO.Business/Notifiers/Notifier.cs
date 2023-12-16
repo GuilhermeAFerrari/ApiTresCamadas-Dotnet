@@ -6,7 +6,7 @@ public class Notifier : INotifier
 {
     private List<Notification> _notifications;
 
-    public Notifier(List<Notification> notifications)
+    public Notifier()
     {
         _notifications = new List<Notification>();
     }

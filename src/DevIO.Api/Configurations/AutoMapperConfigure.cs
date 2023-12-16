@@ -9,6 +9,7 @@ public class AutoMapperConfigure : Profile
     public AutoMapperConfigure()
     {
         CreateMap<Supplier, SupplierViewModel>().ReverseMap();
+
         CreateMap<Address, AddressViewModel>().ReverseMap();
 
         CreateMap<Product, ProductViewModel>()

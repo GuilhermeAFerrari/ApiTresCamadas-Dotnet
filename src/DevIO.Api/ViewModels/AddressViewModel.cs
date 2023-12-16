@@ -32,5 +32,5 @@ public class AddressViewModel
     [StringLength(50, ErrorMessage = "The {0} field must be between {2} and {1} characters", MinimumLength = 2)]
     public string? State { get; set; }
 
-    public Guid Supplier { get; set; }
+    public Guid SupplierId { get; set; }
 }

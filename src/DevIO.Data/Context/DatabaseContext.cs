@@ -42,12 +42,12 @@ public class DatabaseContext : DbContext
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Property("DataCadastro").CurrentValue = DateTime.Now;
+                entry.Property("RegistrationDate").CurrentValue = DateTime.Now;
             }
 
             if (entry.State == EntityState.Modified)
             {
-                entry.Property("DataCadastro").IsModified = false;
+                entry.Property("RegistrationDate").IsModified = false;
             }
         }
 

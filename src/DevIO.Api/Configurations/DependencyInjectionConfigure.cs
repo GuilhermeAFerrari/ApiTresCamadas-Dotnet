@@ -17,7 +17,7 @@ public static class DependencyInjectionConfigure
 
         //Bussiness
         services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ISupplierService, SupplierService>();
         services.AddScoped<INotifier, Notifier>();
 
         return services;
