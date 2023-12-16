@@ -1,41 +1,61 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevIO.Business.Interfaces;
+using DevIO.Business.Notifiers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Net;
 
 namespace DevIO.Api.Controllers;
 
 [ApiController]
 public abstract class MainController : ControllerBase
 {
-    protected bool ValidOperation()
+    private readonly INotifier _notifier;
+
+    protected MainController(INotifier notifier)
     {
-        return true;
+        _notifier = notifier;
     }
 
-    protected ActionResult CustomResponse(object result = null)
+    protected bool ValidOperation()
+    {
+        return !_notifier.HasNotification();
+    }
+
+    protected ActionResult CustomResponse(HttpStatusCode statusCode = HttpStatusCode.OK, object result = null)
     {
         if (ValidOperation())
         {
-            return new ObjectResult(result);
+            return new ObjectResult(result)
+            {
+                StatusCode = Convert.ToInt32(statusCode)
+            };
         }
 
         return BadRequest(new
         {
-            //Errors
+            errors = _notifier.GetNotifications().Select(n => n.Message)
         });
     }
 
     protected ActionResult CustomResponse(ModelStateDictionary modelState)
     {
-        if (!modelState.IsValid)
-        {
-            // Notifier errors
-        }
-
+        if (!modelState.IsValid) NotifyInvalidModel(modelState);
         return CustomResponse();
+    }
+
+    protected void NotifyInvalidModel(ModelStateDictionary modelState)
+    {
+        var errors = modelState.Values.SelectMany(e => e.Errors);
+
+        foreach (var error in errors)
+        {
+            var errorMsg = error.Exception == null ? error.ErrorMessage : error.Exception.Message;
+            NotifyError(errorMsg);
+        }
     }
 
     protected void NotifyError(string message)
     {
-
+        _notifier.Handle(new Notification(message));
     }
 }
